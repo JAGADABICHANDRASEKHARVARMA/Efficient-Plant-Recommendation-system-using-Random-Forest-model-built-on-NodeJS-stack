@@ -1,0 +1,43 @@
+<nav *ngIf="loggedIn" class="navbar navbar-expand-md fixed-top" style="background-color:brown ;color: white">
+    <a class="navbar-brand" routerLink="/"><img src="https://as1.ftcdn.net/jpg/02/26/43/54/500_F_226435462_kfG4H78oVoZ5HVjE5yyIWXZDwpGKkgFL.jpg" alt="OS" style="height: 40px"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav ml-auto" style="margin-right: 100px;">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products">
+            Products
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shopping-cart">
+            <span class="material-icons">
+              shopping_cart
+            </span>
+            <span class="badge badge-warning bage-pill">{{shoppingCartItemCount}}</span>
+            
+          </a>
+        </li>
+        <ng-template #anonymousUser>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </li>
+        </ng-template>
+        <li ngbDropdown class="nav-item dropdown">
+          <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{authService.decodedToken.name}}
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu mr-auto" aria-labelledby="dropdown01" style="background-color: white;">
+            <a class="dropdown-item" routerLink="/my/orders"><i class="fa fas fa-shopping-bag"></i>  My Orders</a>
+            <a class="dropdown-item" *ngIf="authService.decodedToken.isAdmin" routerLink="/admin/orders"><i class="fa fas fa-tasks"></i>  Manage Orders</a>
+            <a class="dropdown-item" *ngIf="authService.decodedToken.isAdmin" routerLink="/admin/products"><i class="fa fas fa-list-alt"></i>  Manage Plants</a>
+            <a class="dropdown-item" *ngIf="authService.decodedToken.isAdmin" routerLink="/admin/delivery-person"><i class="fa fas fa-list-alt"></i>  Manage Delivery Person</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" style="color:brown" (click)="logout()"> Log Out</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
