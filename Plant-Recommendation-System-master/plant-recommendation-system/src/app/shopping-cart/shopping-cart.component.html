@@ -1,0 +1,120 @@
+<div style="background: rgba(0, 0, 0, 0.6); padding:10px; color: white; border-radius: 10px;">
+  <h1>Shopping Cart</h1>
+<ng-container>
+  <p *ngIf="!dataRetrieved">
+    Loading...
+  </p>
+  <p *ngIf="shoppingCartItemCount; else noData">
+    You have {{ shoppingCartItemCount }} item(s) in your shopping cart.
+  </p>
+  <ng-template #noData  >
+    <pre class="noData" *ngIf="dataRetrieved">
+      Sorry!
+      No items in Cart.
+      <button class="btn btn-danger"><a routerLink="/" class="noDataButton">Add Items to Cart</a></button>
+      <!-- <a routerLink="/login">My Orders</a> -->
+    </pre>
+
+  </ng-template>
+  <table *ngIf="shoppingCartItemCount" class="table" style="color: white;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Plant Name</th>
+        <th>Bloom Time</th>
+        <th>Size at Maturity</th>
+        <th>Quantity</th>
+        <th class="text-right">Price</th>
+        <th class="text-right">Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cartData of availableCart.items" style="text-align: center;" >
+        <td><div [style.backgroundImage]="'url('+cartData.imageUrl+')'" class="thumbnail" alt=""></div></td>
+        <td>{{ cartData.Common_Name }}</td>
+        <td>{{ cartData.Bloom_Time }}</td>
+        <td>{{ cartData.Size_at_Maturity }}</td>
+        <td>
+        <div class="row no-gutters">
+          <div class="col-2" (click)="removeFromCart(cartData)">
+            <button style="display: inline; text-align: center;" class="btn btn-secondary" style="background-color: green;">-</button>
+          </div>
+          <div class="col text-center">
+            {{ cartData.quantity }} in cart
+          </div>
+          <div class="col-2" (click)="addToCart(cartData)">
+            <button class="btn btn-secondary" style="background-color: green;">+</button>
+          </div>
+        </div>
+      </td>
+        <td class="text-right">
+          {{ cartData.price }}
+        </td>
+        <td class="text-right">
+          {{ cartData.price * cartData.quantity }}
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th class="text-right" *ngIf="totalPrice">Total Price:</th>
+        <th class="text-right">{{ totalPrice | currency: "INR" }}</th>
+      </tr>
+    </tfoot>
+  </table>
+  <div style="background-color: rgba(253,182,12,1); color: white">
+  <div style="margin:auto; width: 280px; padding: 10px; color:white">
+  <a *ngIf="shoppingCartItemCount" (click)="checkOut()" class="btn btn-success btn-sm" style="color: white">Check Out</a>
+  <button *ngIf="shoppingCartItemCount" (click)="clearCart()" class="btn btn-danger btn-sm ml-2">
+    Clear Shopping Cart
+  </button>
+</div>
+</div>
+</ng-container>
+
+
+
+
+
+<h4 class="mt-4" *ngIf="unavailableCart">Unavialable Items</h4>
+<ng-container *ngIf="unavailableCart" style="color: white;">
+  <p *ngIf="!dataRetrieved">
+    Loading...
+  </p>
+  <table *ngIf="shoppingCartItemCount" class="table" style="color: white;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Plant Name</th>
+        <th>Bloom Time</th>
+        <th>Size at Maturity</th>
+        <th>Quantity</th>
+        <th class="text-right">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cartData of unavailableCart.items" style="text-align: center;">
+        <td><div [style.backgroundImage]="'url('+cartData.imageUrl+')'" class="thumbnail" alt=""></div></td>
+        <td>{{ cartData.Common_Name }}</td>
+        <td>{{ cartData.Bloom_Time }}</td>
+        <td>{{ cartData.Size_at_Maturity }}</td>
+        <td>
+        <div class="row no-gutters">
+          <div class="col text-center" style="color: red">
+            Currently Unavailable
+          </div>
+        </div>
+      </td>
+        <td class="text-right">
+          {{ cartData.price }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+</div>
